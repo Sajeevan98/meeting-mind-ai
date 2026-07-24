@@ -1,3 +1,60 @@
 spring:
   application:
     name: meeting-mind-ai
+
+  profiles:
+    active: local
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+    properties:
+      hibernate:
+        format_sql: true
+
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+app:
+  file:
+    upload-dir: uploads/meetings
+    max-size: 10485760 # 10MB
+    allowed-types:
+      # PDF
+      - application/pdf
+
+      # Microsoft Word
+      - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      - application/msword
+
+      # Plain Text
+      - text/plain
+
+      # Markdown
+      - text/markdown
+      - text/x-markdown
+
+      # Rich Text
+      - application/rtf
+      - text/rtf
+
+      # OpenDocument
+      - application/vnd.oasis.opendocument.text
+
+      # HTML
+      - text/html
+
+    allowed-extensions:
+      - pdf
+      - doc
+      - docx
+      - txt
+      - md
+      - rtf
+      - odt
+      - html
+      - htm
