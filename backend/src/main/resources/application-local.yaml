@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/meetingmind
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+
+server:
+  port: 8081
+
+logging:
+  level:
+    org.hibernate.SQL: debug
