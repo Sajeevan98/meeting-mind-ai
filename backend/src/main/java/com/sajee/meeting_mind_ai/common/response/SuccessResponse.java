@@ -1,13 +1,13 @@
 package com.sajee.meeting_mind_ai.common.response;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record SuccessResponse<T>(
 
         boolean success,
         String message,
         T data,
-        LocalDateTime timestamp
+        Instant timestamp
 ) {
 
     public static <T> SuccessResponse<T> success(String message, T data) {
@@ -15,7 +15,7 @@ public record SuccessResponse<T>(
                 true,
                 message,
                 data,
-                LocalDateTime.now()
+                Instant.now()
         );
     }
 

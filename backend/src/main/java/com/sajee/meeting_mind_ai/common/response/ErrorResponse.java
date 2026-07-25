@@ -1,11 +1,11 @@
 package com.sajee.meeting_mind_ai.common.response;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record ErrorResponse(
 
         boolean success,
         int status,
         String message,
-        LocalDateTime timestamp
+        Instant timestamp
 ) { }
