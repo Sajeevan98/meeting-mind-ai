@@ -18,26 +18,31 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
 
-        ErrorResponse response = new ErrorResponse(
-                false,
-                HttpStatus.NOT_FOUND.value(),
-                ex.getMessage(),
-                Instant.now());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                        new ErrorResponse(
+                                false,
+                                HttpStatus.NOT_FOUND.value(),
+                                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                                ex.getMessage(),
+                                Instant.now()
+                        )
+                );
     }
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
 
-        ErrorResponse response = new ErrorResponse(
-                false,
-                HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage(),
-                Instant.now()
-        );
-
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        new ErrorResponse(
+                                false,
+                                HttpStatus.BAD_REQUEST.value(),
+                                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                                ex.getMessage(),
+                                Instant.now()
+                        )
+                );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
