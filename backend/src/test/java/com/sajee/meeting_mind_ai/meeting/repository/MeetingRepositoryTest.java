@@ -1,8 +1,7 @@
-package com.sajee.meeting_mind_ai.repository;
+package com.sajee.meeting_mind_ai.meeting.repository;
 
 import com.sajee.meeting_mind_ai.meeting.entity.Meeting;
 import com.sajee.meeting_mind_ai.meeting.enums.MeetingStatus;
-import com.sajee.meeting_mind_ai.meeting.repository.MeetingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;

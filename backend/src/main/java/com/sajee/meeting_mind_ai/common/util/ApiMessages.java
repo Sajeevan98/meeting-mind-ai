@@ -9,4 +9,7 @@ public class ApiMessages {
     public static final String MEETINGS_RETRIEVED = "Meetings retrieved successfully.";
     public static final String MEETING_UPDATED = "Meeting updated successfully.";
     public static final String MEETING_DELETED = "Meeting deleted successfully.";
+
+    public static final String VALIDATION_FAILED = "Validation failed!";
+    public static final String INTERNAL_SERVER_MESSAGE = "Something went wrong.";
 }

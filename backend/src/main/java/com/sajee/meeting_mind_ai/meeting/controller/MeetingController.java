@@ -9,11 +9,14 @@ import com.sajee.meeting_mind_ai.meeting.dto.response.MeetingResponse;
 import com.sajee.meeting_mind_ai.meeting.service.MeetingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -44,10 +47,16 @@ public class MeetingController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<MeetingResponse>>> getMeetings() {
+    public ResponseEntity<ApiResponse<Page<MeetingResponse>>> getMeetings(
+            @PageableDefault(
+                    size = 10,
+                    sort = "createdAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable
+    ) {
 
         return ResponseEntity.ok(
-                ApiResponse.success(ApiMessages.MEETINGS_RETRIEVED, meetingService.getAll())
+                ApiResponse.success(ApiMessages.MEETINGS_RETRIEVED, meetingService.getAll(pageable))
         );
     }
 

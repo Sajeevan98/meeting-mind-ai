@@ -3,7 +3,7 @@ spring:
     name: meeting-mind-ai
 
   profiles:
-    active: local
+    active: dev
 
   jpa:
     hibernate:
