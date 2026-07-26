@@ -1,8 +1,9 @@
 package com.sajee.meeting_mind_ai.common.response;
 
 import java.time.Instant;
+import java.util.Map;
 
-public record ErrorResponse(
+public record ValidationErrorResponse(
 
         boolean success,
 
@@ -11,6 +12,8 @@ public record ErrorResponse(
         String error,
 
         String message,
+
+        Map<String, String> errors,
 
         Instant timestamp
 ) {
