@@ -11,4 +11,8 @@ public class ApiEndpoints {
     public static final String MEETINGS = API_V1 + "/meeting";
 
     public static final String ATTACHMENTS = MEETINGS + "/attachments";
+
+    public static final String DOCUMENTS = MEETINGS + "/documents";
+
+
 }
