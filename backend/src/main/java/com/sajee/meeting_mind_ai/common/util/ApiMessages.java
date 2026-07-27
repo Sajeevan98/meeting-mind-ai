@@ -2,7 +2,8 @@ package com.sajee.meeting_mind_ai.common.util;
 
 public class ApiMessages {
 
-    private ApiMessages() {}
+    private ApiMessages() {
+    }
 
     public static final String MEETING_CREATED = "Meeting created successfully.";
     public static final String MEETING_RETRIEVED = "Meeting retrieved successfully.";
@@ -12,4 +13,8 @@ public class ApiMessages {
 
     public static final String VALIDATION_FAILED = "Validation failed!";
     public static final String INTERNAL_SERVER_MESSAGE = "Something went wrong.";
+
+    public static final String ATTACHMENT_UPLOADED = "Attachment created successfully.";
+    public static final String ATTACHMENTS_RETRIEVED = "Attachments retrieved successfully.";
+    public static final String ATTACHMENT_DELETED = "Attachment deleted successfully.";
 }
