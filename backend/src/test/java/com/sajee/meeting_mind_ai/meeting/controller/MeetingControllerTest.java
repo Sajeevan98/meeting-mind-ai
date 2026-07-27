@@ -60,7 +60,7 @@ public class MeetingControllerTest {
         when(meetingService.create(any(CreateMeetingRequest.class)))
                 .thenReturn(response);
 
-        mockMvc.perform(post("/api/v1/meetings")
+        mockMvc.perform(post("/api/v1/meeting")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
@@ -84,7 +84,7 @@ public class MeetingControllerTest {
         CreateMeetingRequest request = new CreateMeetingRequest("");
 
         // Act & Assert
-        mockMvc.perform(post("/api/v1/meetings")
+        mockMvc.perform(post("/api/v1/meeting")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -113,7 +113,7 @@ public class MeetingControllerTest {
                 .thenReturn(response);
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/meetings/{uuid}", uuid))
+        mockMvc.perform(get("/api/v1/meeting/{uuid}", uuid))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Meeting retrieved successfully."))
@@ -145,7 +145,7 @@ public class MeetingControllerTest {
                 .thenReturn(page);
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/meetings"))
+        mockMvc.perform(get("/api/v1/meeting"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.content[0].title")
@@ -178,7 +178,7 @@ public class MeetingControllerTest {
         when(meetingService.update(eq(uuid), any(UpdateMeetingRequest.class)))
                 .thenReturn(response);
 
-        mockMvc.perform(put("/api/v1/meetings/{uuid}", uuid)
+        mockMvc.perform(put("/api/v1/meeting/{uuid}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -195,7 +195,7 @@ public class MeetingControllerTest {
 
         UUID uuid = UUID.randomUUID();
 
-        mockMvc.perform(delete("/api/v1/meetings/{uuid}", uuid))
+        mockMvc.perform(delete("/api/v1/meeting/{uuid}", uuid))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message")
@@ -212,7 +212,7 @@ public class MeetingControllerTest {
         when(meetingService.getByUuid(uuid))
                 .thenThrow(new ResourceNotFoundException("Meeting not found with UUID: " + uuid));
 
-        mockMvc.perform(get("/api/v1/meetings/{uuid}", uuid))
+        mockMvc.perform(get("/api/v1/meeting/{uuid}", uuid))
                 .andExpect(status().isNotFound());
 
         verify(meetingService).getByUuid(uuid);
