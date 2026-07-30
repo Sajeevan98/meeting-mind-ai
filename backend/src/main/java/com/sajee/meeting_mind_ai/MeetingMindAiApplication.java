@@ -10,6 +10,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class MeetingMindAiApplication {
 
 	public static void main(String[] args) {
+
+//		System.out.println("DB_HOST = " + System.getenv("DB_HOST"));
 		SpringApplication.run(MeetingMindAiApplication.class, args);
 	}
 

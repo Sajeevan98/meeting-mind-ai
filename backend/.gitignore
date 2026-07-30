@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Uploaded meeting files
+/uploads/
+/uploads/**
+
+# Environment files
+.env
+.env.*
+!.env.example
