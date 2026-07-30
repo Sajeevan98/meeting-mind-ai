@@ -1,6 +1,6 @@
 package com.sajee.meeting_mind_ai.analysis.entity;
 
-import com.sajee.meeting_mind_ai.analysis.enums.AIProvider;
+import com.sajee.meeting_mind_ai.analysis.enums.AiProvider;
 import com.sajee.meeting_mind_ai.analysis.enums.AnalysisStatus;
 import com.sajee.meeting_mind_ai.analysis.model.ActionItem;
 import com.sajee.meeting_mind_ai.common.util.AuditableEntity;
@@ -55,6 +55,16 @@ public class MeetingAnalysis extends AuditableEntity {
     private List<String> decisions;
 
     @Setter
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb", nullable = false)
+    private List<String> risks;
+
+    @Setter
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb", nullable = false)
+    private List<String> nextSteps;
+
+    @Setter
     @Column(name = "raw_ai_response", columnDefinition = "TEXT")
     private String rawAiResponse;
 
@@ -62,7 +72,7 @@ public class MeetingAnalysis extends AuditableEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private AIProvider provider;
+    private AiProvider provider;
 
     // Stores the exact model (such as gpt-5, gemini-2.5-pro)
     @Setter
