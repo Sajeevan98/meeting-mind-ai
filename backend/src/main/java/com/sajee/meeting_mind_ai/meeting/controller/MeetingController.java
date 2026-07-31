@@ -6,6 +6,7 @@ import com.sajee.meeting_mind_ai.common.util.ApiMessages;
 import com.sajee.meeting_mind_ai.meeting.dto.request.CreateMeetingRequest;
 import com.sajee.meeting_mind_ai.meeting.dto.request.UpdateMeetingRequest;
 import com.sajee.meeting_mind_ai.meeting.dto.response.MeetingResponse;
+import com.sajee.meeting_mind_ai.meeting.dto.response.MeetingPageResponse;
 import com.sajee.meeting_mind_ai.meeting.service.MeetingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class MeetingController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<MeetingResponse>>> getMeetings(
+    public ResponseEntity<ApiResponse<MeetingPageResponse<MeetingResponse>>> getMeetings(
             @PageableDefault(
                     size = 10,
                     sort = "createdAt",
@@ -55,8 +56,13 @@ public class MeetingController {
             ) Pageable pageable
     ) {
 
+        Page<MeetingResponse> meetings = meetingService.getAll(pageable);
+
         return ResponseEntity.ok(
-                ApiResponse.success(ApiMessages.MEETINGS_RETRIEVED, meetingService.getAll(pageable))
+                ApiResponse.success(
+                        ApiMessages.MEETINGS_RETRIEVED,
+                        MeetingPageResponse.from(meetings)
+                )
         );
     }
 
