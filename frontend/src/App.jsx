@@ -1,12 +1,9 @@
-function App() {
+import AppRouter from './routes/AppRouter'
 
-  return (
-    <>
-      <h1>
-        MeetingMind AI Project
-      </h1>
-    </>
-  )
+const App = () => {
+  
+  return <AppRouter /> 
 }
 
 export default App
+
