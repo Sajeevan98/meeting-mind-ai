@@ -14,4 +14,6 @@ public interface MeetingAttachmentRepository extends JpaRepository<MeetingAttach
     List<MeetingAttachment> findAllByMeetingUuidOrderByCreatedAtDesc(UUID meetingUuid);
 
     boolean existsByChecksum(String checksum);
+
+    List<MeetingAttachment> findByMeetingUuid(UUID uuid);
 }
