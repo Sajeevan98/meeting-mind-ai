@@ -10,3 +10,7 @@ server:
 logging:
   level:
     org.hibernate.SQL: debug
+
+app:
+  cors:
+    allowed-origin: ${FRONTEND_URL}
