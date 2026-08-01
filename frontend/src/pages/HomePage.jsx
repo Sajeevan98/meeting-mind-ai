@@ -8,6 +8,7 @@ export default function HomePage() {
       <Typography
         variant="h4"
         gutterBottom
+        color="primary"
       >
         Dashboard
       </Typography>
@@ -28,11 +29,11 @@ export default function HomePage() {
             <Card>
               <CardContent>
 
-                <Typography variant="h6">
+                <Typography variant="h6" color="textPrimary">
                   {title}
                 </Typography>
 
-                <Typography variant="h4">
+                <Typography variant="h4" color="textSecondary">
                   0
                 </Typography>
 
