@@ -2,10 +2,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClientProvider } from '@tanstack/react-query'
 
-import App from './App.jsx'
-import {queryClient} from "./api/queryClient.jsx"
+import App from './App'
+import {queryClient} from "./api/queryClient"
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import theme from './theme/theme.jsx'
+import theme from './theme/theme'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

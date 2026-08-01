@@ -1,6 +1,6 @@
 import { Drawer, Toolbar, List, ListItemButton, ListItemText } from "@mui/material";
-
 import { DRAWER_WIDTH } from "./layoutConstants";
+import { NavLink } from "react-router-dom";
 
 export default function AppSidebar({ mobileOpen, onDrawerToggle }) {
 
@@ -10,11 +10,19 @@ export default function AppSidebar({ mobileOpen, onDrawerToggle }) {
             <Toolbar />
             <List>
 
-                <ListItemButton onClick={onDrawerToggle}>
+                <ListItemButton 
+                    onClick={onDrawerToggle}
+                    component={NavLink}
+                    to="/"
+                >
                     <ListItemText primary="Dashboard" />
                 </ListItemButton>
 
-                <ListItemButton onClick={onDrawerToggle}>
+                <ListItemButton
+                    onClick={onDrawerToggle}
+                    component={NavLink}
+                    to="/meetings"
+                >
                     <ListItemText primary="Meetings" />
                 </ListItemButton>
 
