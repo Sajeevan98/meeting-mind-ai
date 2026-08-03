@@ -1,7 +1,7 @@
 package com.sajee.meeting_mind_ai.attachment.controller;
 
 import com.sajee.meeting_mind_ai.attachment.dto.AttachmentResponse;
-import com.sajee.meeting_mind_ai.attachment.MeetingAttachmentService;
+import com.sajee.meeting_mind_ai.attachment.service.MeetingAttachmentService;
 import com.sajee.meeting_mind_ai.common.response.ApiResponse;
 import com.sajee.meeting_mind_ai.common.util.ApiEndpoints;
 import com.sajee.meeting_mind_ai.common.util.ApiMessages;
@@ -38,7 +38,7 @@ public class MeetingAttachmentController {
                 .body(ApiResponse.success(ApiMessages.ATTACHMENT_UPLOADED, response));
     }
 
-    @GetMapping("/{meetingUuid}")
+    @GetMapping("/meeting/{meetingUuid}")
     public ResponseEntity<ApiResponse<List<AttachmentResponse>>> getAttachments(
             @PathVariable UUID meetingUuid
     ) {

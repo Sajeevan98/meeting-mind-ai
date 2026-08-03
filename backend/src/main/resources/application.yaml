@@ -61,11 +61,11 @@ app:
       - doc
       - docx
       - txt
-      - md
-      - rtf
-      - odt
-      - html
-      - htm
+#      - md
+#      - rtf
+#      - odt
+#      - html
+#      - htm
 
   ai:
     providers:

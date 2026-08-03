@@ -26,7 +26,7 @@ public class MeetingRepositoryTest {
     void shouldSaveMeetingSuccessfully() {
 
         // Act
-        Meeting savedMeeting = createMeeting("Sprint Planning Meeting");
+        Meeting savedMeeting = createMeeting("Sprint Planning Meeting", "Meeting Description");
 
         // Assert
         assertThat(savedMeeting).isNotNull();
@@ -37,6 +37,9 @@ public class MeetingRepositoryTest {
 
         assertThat(savedMeeting.getTitle())
                 .isEqualTo("Sprint Planning Meeting");
+
+        assertThat(savedMeeting.getDescription())
+                .isEqualTo("Meeting Description");
 
         assertThat(savedMeeting.getStatus())
                 .isEqualTo(MeetingStatus.UPLOADED);
@@ -50,7 +53,7 @@ public class MeetingRepositoryTest {
     void shouldFindMeetingByUuid() {
 
         // Arrange
-        Meeting savedMeeting = createMeeting("Sprint Planning Meeting");
+        Meeting savedMeeting = createMeeting("Sprint Planning Meeting", "Meeting Description");
 
         // Act
         Optional<Meeting> result = meetingRepository.findByUuid(savedMeeting.getUuid());
@@ -63,6 +66,9 @@ public class MeetingRepositoryTest {
 
         assertThat(result.get().getTitle())
                 .isEqualTo("Sprint Planning Meeting");
+
+        assertThat(result.get().getDescription())
+                .isEqualTo("Meeting Description");
     }
 
     @Test
@@ -79,7 +85,7 @@ public class MeetingRepositoryTest {
     void shouldReturnTrueWhenMeetingExistsByUuid() {
 
         // Arrange
-        Meeting savedMeeting = createMeeting("Sprint Planning Meeting");
+        Meeting savedMeeting = createMeeting("Sprint Planning Meeting", "Meeting Description");
 
         // Act
         boolean exists = meetingRepository.existsByUuid(savedMeeting.getUuid());
@@ -102,18 +108,18 @@ public class MeetingRepositoryTest {
     void shouldReturnMeetingsOrderedByCreatedAtDesc() throws InterruptedException {
 
         // Arrange
-        Meeting first = createMeeting("Meeting A");
+        Meeting first = createMeeting("Meeting A","Meeting Description");
 
         // If all three entities are created in the same millisecond,
         // they could receive identical timestamps, making the ordering unpredictable.
         // A tiny delay guarantees different timestamps.
         Thread.sleep(5);
 
-        Meeting second = createMeeting("Meeting B");
+        Meeting second = createMeeting("Meeting B", "Meeting Description");
 
         Thread.sleep(5);
 
-        Meeting third = createMeeting("Meeting C");
+        Meeting third = createMeeting("Meeting C", "Meeting Description");
 
         // Act
         List<Meeting> meetings = meetingRepository.findAllByOrderByCreatedAtDesc();
@@ -133,11 +139,12 @@ public class MeetingRepositoryTest {
     }
 
     // Helper Method
-    private Meeting createMeeting(String title) {
+    private Meeting createMeeting(String title, String description) {
 
         return meetingRepository.save(
                 Meeting.builder()
                         .title(title)
+                        .description(description)
                         .build()
         );
     }

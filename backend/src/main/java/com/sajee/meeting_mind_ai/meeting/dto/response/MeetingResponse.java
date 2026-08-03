@@ -11,6 +11,8 @@ public record MeetingResponse(
 
         String title,
 
+        String description,
+
         MeetingStatus status,
 
         int attachmentCount,

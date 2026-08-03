@@ -1,4 +1,4 @@
-package com.sajee.meeting_mind_ai.attachment;
+package com.sajee.meeting_mind_ai.attachment.service;
 
 import com.sajee.meeting_mind_ai.attachment.dto.AttachmentResponse;
 import org.springframework.web.multipart.MultipartFile;
