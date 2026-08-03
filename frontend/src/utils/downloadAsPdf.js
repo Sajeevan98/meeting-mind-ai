@@ -14,7 +14,7 @@ export const downloadAsPdf = (analysis) => {
 
     const addText = (text, options = {}) => {
 
-        const { fontSize = 11, fontStyle = "normal", spacing = 6 } = options;
+        const { fontSize = 10, fontStyle = "normal", spacing = 6} = options;
 
         pdf.setFontSize(fontSize);
         pdf.setFont("helvetica", fontStyle);
@@ -38,9 +38,8 @@ export const downloadAsPdf = (analysis) => {
     // title
     addText("Meeting Analysis", {
 
-        fontSize: 18,
-        fontStyle: "bold",
-        spacing: 10,
+        fontSize: 16,
+        fontStyle: "bold"
     });
 
     // metadata
@@ -57,8 +56,7 @@ export const downloadAsPdf = (analysis) => {
     // summary
     addText("Summary", {
         fontSize: 14,
-        fontStyle: "bold",
-        spacing: 5,
+        fontStyle: "bold"
     });
 
     addText(analysis.summary || "No summary available.");
@@ -67,8 +65,7 @@ export const downloadAsPdf = (analysis) => {
     if (analysis.actionItems?.length > 0) {
         addText("Action Items", {
             fontSize: 14,
-            fontStyle: "bold",
-            spacing: 5,
+            fontStyle: "bold"
         });
 
         analysis.actionItems.forEach((item, index) => {
@@ -82,8 +79,7 @@ export const downloadAsPdf = (analysis) => {
     if (analysis.decisions?.length > 0) {
         addText("Decisions", {
             fontSize: 14,
-            fontStyle: "bold",
-            spacing: 5,
+            fontStyle: "bold"
         });
 
         analysis.decisions.forEach((decision, index) => {
@@ -95,8 +91,7 @@ export const downloadAsPdf = (analysis) => {
     if (analysis.risks?.length > 0) {
         addText("Risks", {
             fontSize: 14,
-            fontStyle: "bold",
-            spacing: 5,
+            fontStyle: "bold"
         });
 
         analysis.risks.forEach((risk, index) => {
@@ -108,8 +103,7 @@ export const downloadAsPdf = (analysis) => {
     if (analysis.nextSteps?.length > 0) {
         addText("Next Steps", {
             fontSize: 14,
-            fontStyle: "bold",
-            spacing: 5,
+            fontStyle: "bold"
         });
 
         analysis.nextSteps.forEach((step, index) => {

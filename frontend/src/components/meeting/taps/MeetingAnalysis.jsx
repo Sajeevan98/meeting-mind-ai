@@ -25,8 +25,6 @@ const MeetingAnalysis = ({ meeting }) => {
     error: analysesError
   } = useGetAnalyses(meeting.uuid);
 
-  console.log("Current analyses:", analyses);
-
   // get the recent analysis
   const latestAnalysis = analyses.length > 0 ? analyses[0] : null;
 

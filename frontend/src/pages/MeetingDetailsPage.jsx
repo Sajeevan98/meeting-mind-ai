@@ -69,23 +69,23 @@ const MeetingDetailsPage = () => {
                         Edit
                     </Button>
 
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color='warning'
                         startIcon={<Source />}
                         onClick={() => setSearchParams({ tab: "attachments" })}
                     >
                         Attachments
-                    </Button>
+                    </Button> */}
 
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="secondary"
                         startIcon={<PsychologyIcon />}
                         onClick={() => setSearchParams({ tab: "analysis" })}
                     >
                         Analyze
-                    </Button>
+                    </Button> */}
                 </Stack>
 
                 <Divider sx={{ my: 3 }} />
