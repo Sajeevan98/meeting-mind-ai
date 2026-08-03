@@ -2,35 +2,35 @@ import apiClient from "../api/apiClient"
 
 export const createMeeting = async (meeting) => {
 
-    const response = await apiClient.post("/meeting", meeting)
+    const response = await apiClient.post("/meetings", meeting)
 
     return response.data.data;
 }
 
 export const getMeetings = async () => {
 
-    const response = await apiClient.get("/meeting")
+    const response = await apiClient.get("/meetings")
 
     return response.data.data;
 }
 
-export const getMeeting = async (uuid) => {
+export const getMeeting = async (meetingUuid) => {
 
-    const response = await apiClient.get(`/meeting/${uuid}`)
-
-    return response.data.data;
-}
-
-export const updateMeeting = async (uuid, meeting) => {
-
-    const response = await apiClient.put(`/meeting/${uuid}`, meeting)
+    const response = await apiClient.get(`/meetings/${meetingUuid}`)
 
     return response.data.data;
 }
 
-export const deleteMeeting = async (uuid) => {
+export const updateMeeting = async (meetingUuid, meeting) => {
 
-    const response = await apiClient.delete(`/meeting/${uuid}`)
+    const response = await apiClient.put(`/meetings/${meetingUuid}`, meeting)
+
+    return response.data.data;
+}
+
+export const deleteMeeting = async (meetingUuid) => {
+
+    const response = await apiClient.delete(`/meetings/${meetingUuid}`)
 
     return response.data.success;
 }

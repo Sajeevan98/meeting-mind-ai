@@ -8,7 +8,8 @@ import {
 } from '../services/meetingService'
 
 
-const useGetMeetings = () => {
+export const useGetMeetings = () => {
+
     return useQuery({
 
         queryKey: ["meetings"],
@@ -17,19 +18,19 @@ const useGetMeetings = () => {
     });
 }
 
-const useGetMeeting = (uuid) => {
+export const useGetMeeting = (meetingUuid) => {
 
     return useQuery({
 
-        queryKey: ["meeting", uuid],
+        queryKey: ["meeting", meetingUuid],
 
-        queryFn: () => getMeeting(uuid),
+        queryFn: () => getMeeting(meetingUuid),
 
-        enabled: !!uuid // Only execute this query, when the UUID actually exists
+        enabled: !!meetingUuid // Only execute this query, when the UUID actually exists
     });
 };
 
-const useCreateMeeting = (meeting) => {
+export const useCreateMeeting = () => {
 
     const client = useQueryClient();
 
@@ -40,30 +41,30 @@ const useCreateMeeting = (meeting) => {
         onSuccess: () => {
 
             client.invalidateQueries({
-
                 queryKey: ["meetings"]
             })
         }
     });
 }
 
-const useUpdateMeeting = () => {
+export const useUpdateMeeting = () => {
 
     const client = useQueryClient();
 
     return useMutation({
 
-        mutationFn: ({ uuid, meeting }) =>
-            updateMeeting(uuid, meeting),
+        mutationFn: ({ meetingUuid, meeting }) => updateMeeting(meetingUuid, meeting),
 
-        onSuccess: (data, updatedMeeting) => {
+        onSuccess: (_, variables) => {
 
-            // Update the individual meeting cache
-            client.setQueryData(
-                ["meeting", updatedMeeting.uuid], data
-            );
+            const { meetingUuid } = variables;
+            
+            // Refresh single meeting
+            client.invalidateQueries({
+                queryKey: ["meeting", meetingUuid]
+            });
 
-            // Refetch the meeting list
+            // Refresh meeting list
             client.invalidateQueries({
                 queryKey: ["meetings"]
             });
@@ -71,7 +72,7 @@ const useUpdateMeeting = () => {
     });
 }
 
-const useDeleteMeeting = () => {
+export const useDeleteMeeting = () => {
 
     const client = useQueryClient();
 
@@ -79,24 +80,11 @@ const useDeleteMeeting = () => {
 
         mutationFn: deleteMeeting,
 
-        onSuccess: (_, uuid) => {
+        onSuccess: () => {
 
             client.invalidateQueries({
                 queryKey: ["meetings"]
             });
-
-            client.removeQueries({
-                queryKey: ["meeting", uuid]
-            });
         }
     });
 };
-
-export {
-
-    useGetMeetings,
-    useGetMeeting,
-    useCreateMeeting,
-    useUpdateMeeting,
-    useDeleteMeeting
-}

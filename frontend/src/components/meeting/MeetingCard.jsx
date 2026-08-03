@@ -80,6 +80,8 @@ const MeetingCard = ({ meeting, onDelete }) => {
                 <Button
                     startIcon={<PsychologyIcon />}
                     color="success"
+                    component={Link}
+                    to={`/meetings/${meeting.uuid}?tab=analysis`}
                 >
                     Analyze
                 </Button>
