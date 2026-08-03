@@ -66,10 +66,10 @@ public class MeetingServiceImpl implements MeetingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Meeting not found with UUID: " + uuid));
 
         meeting.setTitle(request.title());
+        meeting.setDescription(request.description());
 
-        // return meetingMapper.toResponse(meeting); // Hibernate performs Dirty Checking.
-
-        Meeting updated = meetingRepository.save(meeting);
+        // saveAndFlush: immediate get 'updatedAt' to backend response
+        Meeting updated = meetingRepository.saveAndFlush(meeting);
         return meetingMapper.toResponse(updated);
     }
 
@@ -87,7 +87,7 @@ public class MeetingServiceImpl implements MeetingService {
         log.info("Found {} attachments", attachment.size());
 
         // When meeting is deleted, attachments also will delete from the file-storage-directory
-        attachment.forEach(attach ->{
+        attachment.forEach(attach -> {
 
             log.info("Deleting attachment: {}", attach.getFilePath());
             fileStorageService.delete(attach.getFilePath());

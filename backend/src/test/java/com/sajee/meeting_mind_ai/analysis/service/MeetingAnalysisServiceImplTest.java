@@ -1,4 +1,4 @@
-package com.sajee.meeting_mind_ai.analysis.controller;
+package com.sajee.meeting_mind_ai.analysis.service;
 
 import com.sajee.meeting_mind_ai.ai.dto.request.AiAnalyzeRequest;
 import com.sajee.meeting_mind_ai.ai.dto.response.AiAnalysisResult;
@@ -9,7 +9,6 @@ import com.sajee.meeting_mind_ai.analysis.enums.AiProvider;
 import com.sajee.meeting_mind_ai.analysis.enums.AnalysisStatus;
 import com.sajee.meeting_mind_ai.analysis.mapper.MeetingAnalysisMapper;
 import com.sajee.meeting_mind_ai.analysis.repository.MeetingAnalysisRepository;
-import com.sajee.meeting_mind_ai.analysis.service.MeetingAnalysisServiceImpl;
 import com.sajee.meeting_mind_ai.attachment.entity.MeetingAttachment;
 import com.sajee.meeting_mind_ai.common.exception.ResourceNotFoundException;
 import com.sajee.meeting_mind_ai.document.dto.ProcessedDocument;

@@ -1,5 +1,7 @@
 package com.sajee.meeting_mind_ai.meeting.service;
 
+import com.sajee.meeting_mind_ai.attachment.entity.MeetingAttachment;
+import com.sajee.meeting_mind_ai.attachment.repository.MeetingAttachmentRepository;
 import com.sajee.meeting_mind_ai.common.exception.ResourceNotFoundException;
 import com.sajee.meeting_mind_ai.meeting.dto.request.CreateMeetingRequest;
 import com.sajee.meeting_mind_ai.meeting.dto.request.UpdateMeetingRequest;
@@ -8,6 +10,7 @@ import com.sajee.meeting_mind_ai.meeting.entity.Meeting;
 import com.sajee.meeting_mind_ai.meeting.enums.MeetingStatus;
 import com.sajee.meeting_mind_ai.meeting.mapper.MeetingMapper;
 import com.sajee.meeting_mind_ai.meeting.repository.MeetingRepository;
+import com.sajee.meeting_mind_ai.storage.service.FileStorageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,24 +39,33 @@ public class MeetingServiceImplTest {
     @InjectMocks
     private MeetingServiceImpl meetingService;
 
+    @Mock
+    private MeetingAttachmentRepository attachmentRepository;
+
+    @Mock
+    private FileStorageService fileStorageService;
+
     @Test
     void shouldCreateMeetingSuccessfully() {
 
         // Arrange
-        CreateMeetingRequest request = new CreateMeetingRequest("Sprint Planning");
+        CreateMeetingRequest request = new CreateMeetingRequest("Sprint Planning", "Meeting Description");
 
         Meeting meeting = Meeting.builder()
                 .title("Sprint Planning")
+                .description("Meeting Description")
                 .build();
 
         Meeting savedMeeting = Meeting.builder()
                 .title("Sprint Planning")
+                .description("Meeting Description")
                 .build();
 
         MeetingResponse response =
                 new MeetingResponse(
                         savedMeeting.getUuid(),
                         savedMeeting.getTitle(),
+                        savedMeeting.getDescription(),
                         savedMeeting.getStatus(),
                         0,
                         0,
@@ -80,6 +92,9 @@ public class MeetingServiceImplTest {
         assertThat(result.title())
                 .isEqualTo("Sprint Planning");
 
+        assertThat(result.description())
+                .isEqualTo("Meeting Description");
+
         assertThat(result.status())
                 .isEqualTo(MeetingStatus.UPLOADED);
 
@@ -101,12 +116,14 @@ public class MeetingServiceImplTest {
 
         Meeting meeting = Meeting.builder()
                 .title("Sprint Planning")
+                .description("Meeting Description")
                 .build();
 
         MeetingResponse response =
                 new MeetingResponse(
                         uuid,
                         "Sprint Planning",
+                        "Meeting Description",
                         MeetingStatus.UPLOADED,
                         0,
                         0,
@@ -124,6 +141,7 @@ public class MeetingServiceImplTest {
 
         assertThat(result).isNotNull();
         assertThat(result.title()).isEqualTo("Sprint Planning");
+        assertThat(result.description()).isEqualTo("Meeting Description");
 
         verify(meetingRepository).findByUuid(uuid);
         verify(meetingMapper).toResponse(meeting);
@@ -152,16 +170,18 @@ public class MeetingServiceImplTest {
 
         UUID uuid = UUID.randomUUID();
 
-        UpdateMeetingRequest request = new UpdateMeetingRequest("Updated Sprint Planning");
+        UpdateMeetingRequest request = new UpdateMeetingRequest("Updated Sprint Planning", "Updated Meeting Description");
 
         Meeting meeting = Meeting.builder()
                 .title("Old Title")
+                .description("Old Description")
                 .build();
 
         MeetingResponse response =
                 new MeetingResponse(
                         meeting.getUuid(),
                         "Updated Sprint Planning",
+                        "Updated Meeting Description",
                         MeetingStatus.UPLOADED,
                         0,
                         0,
@@ -172,7 +192,7 @@ public class MeetingServiceImplTest {
         when(meetingRepository.findByUuid(uuid))
                 .thenReturn(Optional.of(meeting));
 
-        when(meetingRepository.save(meeting))
+        when(meetingRepository.saveAndFlush(meeting))
                 .thenReturn(meeting);
 
         when(meetingMapper.toResponse(meeting))
@@ -183,8 +203,11 @@ public class MeetingServiceImplTest {
         assertThat(result.title())
                 .isEqualTo("Updated Sprint Planning");
 
+        assertThat(result.description())
+                .isEqualTo("Updated Meeting Description");
+
         verify(meetingRepository).findByUuid(uuid);
-        verify(meetingRepository).save(meeting);
+        verify(meetingRepository).saveAndFlush(meeting);
         verify(meetingMapper).toResponse(meeting);
     }
 
@@ -193,7 +216,7 @@ public class MeetingServiceImplTest {
 
         UUID uuid = UUID.randomUUID();
 
-        UpdateMeetingRequest request = new UpdateMeetingRequest("Updated");
+        UpdateMeetingRequest request = new UpdateMeetingRequest("Updated Meeting", "Updated Description");
 
         when(meetingRepository.findByUuid(uuid))
                 .thenReturn(Optional.empty());
@@ -224,11 +247,13 @@ public class MeetingServiceImplTest {
 
         Meeting meeting = Meeting.builder()
                 .title("Sprint Planning")
+                .description("Meeting Description")
                 .build();
 
         MeetingResponse response = new MeetingResponse(
                 meeting.getUuid(),
                 meeting.getTitle(),
+                meeting.getDescription(),
                 meeting.getStatus(),
                 0,
                 0,
@@ -256,6 +281,9 @@ public class MeetingServiceImplTest {
 
         assertThat(result.getContent().getFirst().title())
                 .isEqualTo("Sprint Planning");
+
+        assertThat((result.getContent().getFirst().description()))
+                .isEqualTo("Meeting Description");
 
         verify(meetingRepository).findAll(pageable);
         verify(meetingMapper).toResponse(meeting);
@@ -292,16 +320,33 @@ public class MeetingServiceImplTest {
 
         Meeting meeting = Meeting.builder()
                 .title("Sprint Planning")
+                .description("Meeting Description")
+                .build();
+
+        MeetingAttachment attachment1 = MeetingAttachment.builder()
+                .filePath("attachments/file1.pdf")
+                .build();
+
+        MeetingAttachment attachment2 = MeetingAttachment.builder()
+                .filePath("attachments/file2.pdf")
                 .build();
 
         when(meetingRepository.findByUuid(uuid))
                 .thenReturn(Optional.of(meeting));
+
+        when(attachmentRepository.findByMeetingUuid(uuid))
+                .thenReturn(List.of(attachment1, attachment2));
 
         // Act
         meetingService.delete(uuid);
 
         // Assert
         verify(meetingRepository).findByUuid(uuid);
+        verify(attachmentRepository).findByMeetingUuid(uuid);
+
+        verify(fileStorageService).delete("attachments/file1.pdf");
+        verify(fileStorageService).delete("attachments/file2.pdf");
+
         verify(meetingRepository).delete(meeting);
     }
 

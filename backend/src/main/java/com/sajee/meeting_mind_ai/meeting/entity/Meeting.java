@@ -34,6 +34,10 @@ public class Meeting extends AuditableEntity {
     @Column(nullable = false, length = 255)
     private String title;
 
+    @Setter
+    @Column(nullable = false, length = 1000)
+    private String description;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)

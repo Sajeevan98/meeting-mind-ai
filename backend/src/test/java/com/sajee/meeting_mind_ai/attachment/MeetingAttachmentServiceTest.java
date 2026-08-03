@@ -4,6 +4,7 @@ import com.sajee.meeting_mind_ai.attachment.dto.AttachmentResponse;
 import com.sajee.meeting_mind_ai.attachment.entity.MeetingAttachment;
 import com.sajee.meeting_mind_ai.attachment.mapper.MeetingAttachmentMapper;
 import com.sajee.meeting_mind_ai.attachment.repository.MeetingAttachmentRepository;
+import com.sajee.meeting_mind_ai.attachment.service.MeetingAttachmentServiceImpl;
 import com.sajee.meeting_mind_ai.common.exception.ResourceNotFoundException;
 import com.sajee.meeting_mind_ai.meeting.entity.Meeting;
 import com.sajee.meeting_mind_ai.meeting.repository.MeetingRepository;
