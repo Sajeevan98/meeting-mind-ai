@@ -27,7 +27,7 @@ const MeetingEditPage = () => {
 
         updateMeetingMutation.mutate(
             {
-                uuid,
+                meetingUuid: uuid, 
                 meeting: formData
             },
             {
@@ -57,15 +57,12 @@ const MeetingEditPage = () => {
 
 
     if (isLoading) {
-        return (
-            <SuccessResponse icon={<CircularProgress />} />
-        );
+        return <SuccessResponse icon={<CircularProgress />} />
     }
 
     if (error) {
-        return (
-            <ErrorResponse error_msg={!error.response ? "Cannot connect to server." : error.response.data.message} />
-        );
+        return <ErrorResponse error_msg={!error.response ? "Cannot connect to server." : error.response.data.message} />
+
     }
 
     return (

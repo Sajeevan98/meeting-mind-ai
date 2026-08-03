@@ -1,5 +1,4 @@
 import { Container, Box, CircularProgress, Typography, Alert, Paper, Toolbar, Grid, Stack, Button } from '@mui/material'
-import { useDeleteMeeting, useGetMeetings } from '../hooks/useMeeting'
 import MeetingCard from '../components/meeting/MeetingCard'
 import AddIcon from '@mui/icons-material/Add'
 import { Link } from 'react-router-dom';
@@ -7,7 +6,8 @@ import ErrorResponse from '../components/common/ErrorResponse'
 import SuccessResponse from '../components/common/SuccessResponse'
 import { useSnackbar } from 'notistack'
 import { useState } from 'react'
-import MeetingDeleteDialog from '../components/meeting/MeetingDeleteDialog'
+import DeleteDialog from '../components/common/DeleteDialog'
+import { useDeleteMeeting, useGetMeetings } from '../hooks/useMeeting'
 
 const MeetingListPage = () => {
 
@@ -22,18 +22,16 @@ const MeetingListPage = () => {
     const [meetingToDelete, setMeetingToDelete] = useState(null);
     const deleteMeetingMutation = useDeleteMeeting();
     const { enqueueSnackbar } = useSnackbar();
+    const [errorMsg, setErrorMsg] = useState("");
 
     if (isLoading) {
-        return (
-            <SuccessResponse icon={<CircularProgress />} />
-        );
+        return <SuccessResponse icon={<CircularProgress />} />
     }
 
     if (error) {
-        return (
-            <ErrorResponse error_msg={"Failed to load meetings."} />
-        );
+        return <ErrorResponse error_msg={"Failed to load meetings."} />
     }
+
 
     const handleDeleteClick = (meeting) => {
 
@@ -42,8 +40,9 @@ const MeetingListPage = () => {
 
     const handleDeleteCancel = () => {
 
+        setErrorMsg("");
+        
         if (deleteMeetingMutation.isPending) {
-
             return;
         }
 
@@ -53,13 +52,14 @@ const MeetingListPage = () => {
     const handleDeleteConfirm = () => {
 
         if (!meetingToDelete) {
-
             return;
         }
 
         deleteMeetingMutation.mutate(meetingToDelete.uuid, {
 
             onSuccess: () => {
+
+                setErrorMsg("");
 
                 enqueueSnackbar(
                     "Meeting deleted successfully.",
@@ -73,12 +73,7 @@ const MeetingListPage = () => {
 
             onError: (error) => {
 
-                enqueueSnackbar(
-                    error?.response?.data?.message ?? "Failed to delete meeting.",
-                    {
-                        variant: "error"
-                    }
-                );
+                setErrorMsg(error?.response?.data?.message ?? "Failed to delete Meeting");
             }
         });
     };
@@ -160,12 +155,14 @@ const MeetingListPage = () => {
                 )
             }
 
-            <MeetingDeleteDialog
+            <DeleteDialog
                 open={!!meetingToDelete}
-                meeting={meetingToDelete}
+                property={meetingToDelete}
                 loading={deleteMeetingMutation.isPending}
                 onClose={handleDeleteCancel}
                 onConfirm={handleDeleteConfirm}
+                name="Meeting" // for reusable purpose
+                errorMessage={errorMsg}
             />
         </Container>
     )

@@ -5,19 +5,19 @@ import {
     deleteAttachment
 } from '../services/attachmentService'
 
-const useGetAttachments = (uuid) => {
+const useGetAttachments = (meetingUuid) => {
 
     return useQuery({
 
-        queryKey: ["attachments", uuid],
+        queryKey: ["attachments", meetingUuid],
 
-        queryFn: () => getAttachments(uuid),
+        queryFn: () => getAttachments(meetingUuid),
 
-        enabled: !!uuid
+        enabled: !!meetingUuid
     });
 };
 
-const useCreateAttachment = (attachment) => {
+const useCreateAttachment = (meetingUuid) => {
 
     const client = useQueryClient();
 
@@ -27,15 +27,26 @@ const useCreateAttachment = (attachment) => {
 
         onSuccess: () => {
 
+            // Refresh only this meeting attachments
             client.invalidateQueries({
+                queryKey: ["attachments", meetingUuid]
+            });
 
-                queryKey: ["attachments"]
-            })
+            // Refresh attachmentCount in meeting
+            client.invalidateQueries({
+                queryKey: ["meeting", meetingUuid]
+            });
+
+            // Refresh attachmentCount in meeting list
+            client.invalidateQueries({
+                queryKey: ["meetings"]
+            });
+
         }
     });
 }
 
-const useDeleteAttachment = () => {
+const useDeleteAttachment = (meetingUuid) => {
 
     const client = useQueryClient();
 
@@ -43,11 +54,26 @@ const useDeleteAttachment = () => {
 
         mutationFn: deleteAttachment,
 
-        onSuccess: (_, uuid) => {
+        onSuccess: () => {
 
             client.invalidateQueries({
-                queryKey: ["attachments"]
+                queryKey: ["attachments", meetingUuid]
+            });
+
+            client.invalidateQueries({
+                queryKey: ["meeting", meetingUuid]
+            });
+
+            client.invalidateQueries({
+                queryKey: ["meetings"]
             });
         }
     });
 };
+
+export {
+
+    useGetAttachments,
+    useCreateAttachment,
+    useDeleteAttachment
+}
