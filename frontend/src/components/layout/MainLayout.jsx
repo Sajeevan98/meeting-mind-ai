@@ -16,23 +16,27 @@ export default function MainLayout({ children }) {
 
         <Box sx={{ display: "flex" }}>
 
-            <AppNavbar onDrawerToggle={handleDrawerToggle}/>
+            <AppNavbar onDrawerToggle={handleDrawerToggle} />
 
-            <AppSidebar mobileOpen={mobileOpen} onDrawerToggle={handleDrawerToggle}/>
+            <AppSidebar mobileOpen={mobileOpen} onDrawerToggle={handleDrawerToggle} />
 
             <Box
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    p: 3,
                     width: {
-                        md: `calc(100% - ${DRAWER_WIDTH}px)`    
+                        md: `calc(100% - ${DRAWER_WIDTH}px)`
                     },
-                    overflowY:{
+                    overflowY: {
                         md: 'auto'
                     },
                     maxHeight: {
                         md: '100vh'
+                    },
+                    paddingX: 4,
+                    paddingY: {
+                        md: 0,
+                        xs: 4
                     }
                 }}
             >

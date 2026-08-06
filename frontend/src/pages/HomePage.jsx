@@ -1,6 +1,25 @@
-import { Typography, Grid, Card, CardContent } from "@mui/material";
+import { Typography, Grid, Card, CardContent } from '@mui/material'
+import { useGetMeetings } from '../hooks/useMeeting'
 
 export default function HomePage() {
+
+  const {
+    data,
+    isLoading,
+    error
+  } = useGetMeetings();
+
+  const meetings = data?.content ?? [];
+
+  const meetingsCounts = meetings.length > 0 ? meetings.length : 0;
+
+  const totalAttachmentCount = meetings.reduce(
+    (total, meeting) => total + (meeting.attachmentCount ?? 0), 0
+  );
+
+  const totalAnalysisCounts = meetings.reduce(
+    (total, meeting) => total + (meeting.analysisCount ?? 0), 0
+  );
 
   return (
 
@@ -8,7 +27,7 @@ export default function HomePage() {
       <Typography
         variant="h4"
         gutterBottom
-        color="primary"
+        color="warning"
       >
         Dashboard
       </Typography>
@@ -33,8 +52,12 @@ export default function HomePage() {
                   {title}
                 </Typography>
 
-                <Typography variant="h4" color="textSecondary">
-                  0
+                <Typography variant="h4" color="warning">
+                  {title === "Meetings" && meetingsCounts}
+
+                  {title === "Documents" && totalAttachmentCount}
+
+                  {title === "Analyses" && totalAnalysisCounts}
                 </Typography>
 
               </CardContent>
