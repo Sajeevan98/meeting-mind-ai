@@ -22,7 +22,7 @@ export default function AppSidebar({ mobileOpen, onDrawerToggle }) {
     const drawer = (
         <>
             
-            <Typography color="primary" sx={{fontSize: 24, fontWeight: 600, marginX: 'auto', marginY: 3}} >MeetingMind AI</Typography>
+            <Typography color="primary" sx={{fontSize: 24, fontWeight: 600, marginX: 'auto', marginY: 4}} >MeetingMind AI</Typography>
             {/* <Toolbar /> */}
             <List>
                 <ListItemButton
@@ -44,13 +44,13 @@ export default function AppSidebar({ mobileOpen, onDrawerToggle }) {
                     <ListItemText primary="Meetings" />
                 </ListItemButton>
 
-                <ListItemButton onClick={onDrawerToggle}>
+                {/* <ListItemButton onClick={onDrawerToggle}>
                     <ListItemText primary="Features" />
                 </ListItemButton>
 
                 <ListItemButton onClick={onDrawerToggle}>
                     <ListItemText primary="Settings" />
-                </ListItemButton>
+                </ListItemButton> */}
             </List>
         </>
     );

@@ -5,7 +5,7 @@ import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 export default function AppNavbar({ onDrawerToggle }) {
 
     return (
-        <AppBar>
+        <AppBar sx={{ display: { xs: "block", md: "none" }}}>
             <Toolbar>
 
                 <IconButton
