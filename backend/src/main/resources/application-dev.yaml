@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:meetingmind}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
 
 logging:
   level:
@@ -13,4 +13,4 @@ logging:
 
 app:
   cors:
-    allowed-origin: ${FRONTEND_URL}
+    allowed-origin: ${FRONTEND_URL:http://localhost:5173}

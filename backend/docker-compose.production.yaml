@@ -1,0 +1,76 @@
+name: meeting-mind-ai
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: meetingmind-postgres
+
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${DB_NAME}"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    restart: unless-stopped
+
+    networks:
+      - meetingmind-network
+
+
+  backend:
+    image: meeting-mind-ai-backend:latest
+    container_name: meetingmind-backend
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+      PROJECT_ID: ${PROJECT_ID}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+
+      FRONTEND_URL: ${FRONTEND_URL}
+
+    ports:
+      - "8081:8081"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    volumes:
+      - meeting-uploads:/app/uploads/meetings
+
+    restart: unless-stopped
+
+    networks:
+      - meetingmind-network
+
+
+volumes:
+  postgres-data:
+  meeting-uploads:
+
+
+networks:
+  meetingmind-network:
+    driver: bridge

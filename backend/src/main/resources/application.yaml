@@ -2,9 +2,6 @@ spring:
   application:
     name: meeting-mind-ai
 
-  profiles:
-    active: dev
-
   jpa:
     hibernate:
       ddl-auto: validate
@@ -25,35 +22,23 @@ spring:
         project-id: ${PROJECT_ID}
         api-key: ${GEMINI_API_KEY}
         chat:
-          model: gemini-3.1-flash-lite
+          model: ${GEMINI_MODEL:gemini-3.1-flash-lite}
 
 app:
   file:
-    upload-dir: uploads/meetings
-    max-size: 10485760 # 10MB
-    allowed-types:
-      # PDF
-      - application/pdf
+    upload-dir: ${UPLOAD_DIR:uploads/meetings}
+    max-size: ${MAX_FILE_SIZE:10485760} # 10MB
 
-      # Microsoft Word
+    allowed-types:
+      - application/pdf
       - application/vnd.openxmlformats-officedocument.wordprocessingml.document
       - application/msword
-
-      # Plain Text
       - text/plain
-
-      # Markdown
       - text/markdown
       - text/x-markdown
-
-      # Rich Text
       - application/rtf
       - text/rtf
-
-      # OpenDocument
       - application/vnd.oasis.opendocument.text
-
-      # HTML
       - text/html
 
     allowed-extensions:
@@ -61,11 +46,6 @@ app:
       - doc
       - docx
       - txt
-#      - md
-#      - rtf
-#      - odt
-#      - html
-#      - htm
 
   ai:
     providers:
