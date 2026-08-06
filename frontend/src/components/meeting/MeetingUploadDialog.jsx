@@ -113,6 +113,7 @@ const MeetingUploadDialog = ({ open, meetingUuid, onClose }) => {
                         <input
                             type="file"
                             hidden
+                            aria-label="select file"
                             onChange={handleFileChange}
                         />
                     </Button>
