@@ -30,7 +30,6 @@ services:
     networks:
       - meetingmind-network
 
-
   backend:
     image: meeting-mind-ai-backend:latest
     container_name: meetingmind-backend
@@ -65,11 +64,24 @@ services:
     networks:
       - meetingmind-network
 
+  frontend:
+    image: meeting-mind-ai-frontend:latest
+    container_name: meetingmind-frontend
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - backend
+
+    restart: unless-stopped
+
+    networks:
+      - meetingmind-network
 
 volumes:
   postgres-data:
   meeting-uploads:
-
 
 networks:
   meetingmind-network:
