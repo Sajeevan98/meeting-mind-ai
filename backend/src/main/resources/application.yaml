@@ -58,3 +58,6 @@ app:
           - gemini-3.6-flash
           - gemini-3.1-pro-preview
           - gemini-3-pro-preview
+
+  cors:
+    allowed-origin: ${FRONTEND_URL}

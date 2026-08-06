@@ -1,4 +1,4 @@
-name: meeting-mind-ai
+name: meeting-mind-ai-development-only
 
 services:
   postgres:
